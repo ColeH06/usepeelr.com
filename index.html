@@ -134,7 +134,7 @@
       
       footer {
   position: fixed;
-  bottom: 35px;
+  bottom: -13px;
   left: 0;
   width: 100%;
   text-align: center;
@@ -588,10 +588,15 @@ body.transitioning {
       </div>
 
     <footer class="text-center text-gray-600 text-sm mt-12 mb-6">
-  <a href="/terms.html" class="hover:text-gray-800 transition">Terms</a>
-  <span class="mx-2 text-gray-400">|</span>
-  <a href="/privacy.html" class="hover:text-gray-800 transition">Privacy</a>
-  <div class="mt-2 text-gray-500">© 2025 Peelr. All rights reserved.</div>
+  <div id="footerLinks">
+    <a href="/terms.html" class="hover:text-gray-800 transition">Terms</a>
+    <span class="mx-2 text-gray-400">|</span>
+    <a href="/privacy.html" class="hover:text-gray-800 transition">Privacy</a>
+  </div>
+
+  <div id="copyright" class="mt-2 text-gray-500">
+    © 2025 Peelr. All rights reserved.
+  </div>
 </footer>
 
 <style>
@@ -697,11 +702,14 @@ input.placeholder = "Search Peelr";
     firstSearchDone = true;
     prepareTransition();
 
-    // REMOVE footer completely
-    const footer = document.querySelector("footer");
-    footer.style.opacity = "0";
-    footer.style.pointerEvents = "none";
-    setTimeout(() => footer.style.display = "none", 600);
+const footerLinks = document.getElementById("footerLinks");
+
+footerLinks.style.opacity = "0";
+footerLinks.style.pointerEvents = "none";
+
+setTimeout(() => {
+  footerLinks.style.display = "none";
+}, 500);
 }
 
 // 🗨️ Handle user bubble logic
