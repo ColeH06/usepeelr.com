@@ -134,7 +134,7 @@
       
       footer {
   position: fixed;
-  bottom: 13px;
+  bottom: 35px;
   left: 0;
   width: 100%;
   text-align: center;
@@ -149,6 +149,10 @@
 
 footer.shifted {
   bottom: 1.9px;
+}
+
+footer {
+  transition: opacity 0.6s ease;
 }
 
       .hero-section { margin-top: -4rem; }
@@ -690,10 +694,15 @@ input.placeholder = "Search Peelr";
         sendBtn.disabled = true;
 
         if (!firstSearchDone) {
-          firstSearchDone = true;
-          prepareTransition();
-          document.querySelector("footer").classList.add("shifted");
-        }
+    firstSearchDone = true;
+    prepareTransition();
+
+    // REMOVE footer completely
+    const footer = document.querySelector("footer");
+    footer.style.opacity = "0";
+    footer.style.pointerEvents = "none";
+    setTimeout(() => footer.style.display = "none", 600);
+}
 
 // 🗨️ Handle user bubble logic
 const userBubble = document.querySelector(".user-bubble");
