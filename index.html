@@ -26,6 +26,16 @@ html {
   scroll-behavior: smooth;
 }
 
+  @media (max-width: 768px) {
+    nav .max-w-7xl {
+      padding-top: 0.35rem !important;
+      padding-bottom: 0.35rem !important;
+    }
+    nav img {
+      height: 64px !important;
+    }
+  }
+
 .glass {
   backdrop-filter: blur(14px);
   background: rgba(255, 255, 255, 0.22);
@@ -48,13 +58,14 @@ html {
 
 <body class="min-h-screen flex flex-col">
 
- <nav class="w-full fixed top-0 left-0 z-20 bg-white/80 backdrop-blur-md shadow-sm h-20 flex items-center">
+ <nav class="w-full fixed top-0 left-0 z-20 bg-white/80 backdrop-blur-md shadow-sm 
+            h-20 md:h-20 sm:h-16 flex items-center">
   <div class="max-w-7xl mx-auto w-full px-6 py-3 flex items-center justify-between">
 
     <!-- LOGO LEFT -->
     <div class="flex items-center">
       <img src="https://usepeelr.com/peelr-logo.png"
-     class="h-[60px] w-auto object-contain flex-shrink-0" />
+     class="h-[80px] md:h-[80px] sm:h-[64px] h-[56px] w-auto object-contain flex-shrink-0" />
     </div>
 
     <!-- NAV LINKS RIGHT -->
@@ -73,8 +84,8 @@ html {
   </div>
 
   <div id="mobileMenu"
-       class="hidden flex-col bg-white/95 backdrop-blur-md shadow-md md:hidden
-              text-slate-700 font-medium px-6 py-4 space-y-4 transition-all duration-300">
+     class="hidden absolute top-full left-0 w-full flex-col bg-white/95 backdrop-blur-md 
+            shadow-md md:hidden px-6 py-4 space-y-4 text-slate-700 font-medium">
     <a href="#hero" class="block hover:text-blue-600">Home</a>
     <a href="#how" class="block hover:text-blue-600">How It Works</a>
     <a href="#amazon" class="block hover:text-blue-600">Where's Amazon?</a>
