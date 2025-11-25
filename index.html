@@ -48,33 +48,36 @@ html {
 
 <body class="min-h-screen flex flex-col">
 
-  <nav class="w-full fixed top-0 left-0 z-20 bg-white/80 backdrop-blur-md shadow-sm h-20 flex items-center">
-  <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+ <nav class="w-full fixed top-0 left-0 z-20 bg-white/80 backdrop-blur-md shadow-sm h-20 flex items-center">
+  <div class="max-w-7xl mx-auto w-full px-6 py-3 flex items-center justify-between">
 
-    <img src="https://usepeelr.com/peelr-logo.png"
-     class="max-h-[90px] object-contain" />
+    <!-- LOGO LEFT -->
+    <div class="flex items-center">
+      <img src="https://usepeelr.com/peelr-logo.png"
+     class="h-[60px] w-auto object-contain flex-shrink-0" />
+    </div>
 
-    <div class="hidden md:flex gap-8 text-slate-700 font-medium">
+    <!-- NAV LINKS RIGHT -->
+    <div class="hidden md:flex gap-8 text-slate-700 font-medium items-center ml-auto">
       <a href="#hero" class="nav-link hover:text-blue-600 transition">Home</a>
       <a href="#how" class="nav-link hover:text-blue-600 transition">How It Works</a>
       <a href="#amazon" class="nav-link hover:text-blue-600 transition">Where's Amazon?</a>
       <a href="#contact" class="nav-link hover:text-blue-600 transition">Contact</a>
     </div>
 
-    <!-- MOBILE BURGER -->
-    <button id="menuBtn" class="md:hidden text-slate-700 text-3xl focus:outline-none">
+    <button id="menuBtn"
+            class="md:hidden text-slate-700 text-3xl focus:outline-none ml-auto">
       ☰
     </button>
 
   </div>
 
-  <!-- MOBILE DROPDOWN -->
   <div id="mobileMenu"
        class="hidden flex-col bg-white/95 backdrop-blur-md shadow-md md:hidden
               text-slate-700 font-medium px-6 py-4 space-y-4 transition-all duration-300">
     <a href="#hero" class="block hover:text-blue-600">Home</a>
     <a href="#how" class="block hover:text-blue-600">How It Works</a>
-    <a href="#amazon" class="block hover:text-blue-600">Amazon Help</a>
+    <a href="#amazon" class="block hover:text-blue-600">Where's Amazon?</a>
     <a href="#contact" class="block hover:text-blue-600">Contact</a>
   </div>
 </nav>
