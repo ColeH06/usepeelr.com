@@ -4,58 +4,544 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Peelr – Track Any Product Price</title>
+
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#1a73e8">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="64x64" href="/static/icons/favicon-64.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/favicon-180.png">
+  <link rel="apple-touch-icon" href="/static/icons/icon-192.png">
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+
   <style>
     body {
-      background: linear-gradient(to bottom right, #e8f5ff, #f0fbff);
+  background: linear-gradient(135deg, #cfe7ff 0%, #e9f4ff 45%, #f7fbff 100%);
+  font-family: Inter, sans-serif;
+}
+
+.glass {
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.22);
+}
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
     }
+
+    @keyframes fade-slide-up {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-fade-in { animation: fade-in 0.20s ease-out; }
+    .animate-step { animation: fade-slide-up 0.25s ease-out; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center pt-20">
-  <!-- Logo Top-Left -->
-  <header class="absolute top-6 left-6">
-    <img src="https://usepeelr.com/peelr-logo.png" alt="Peelr logo" class="h-20">
-  </header>
 
-  <!-- Hero Section -->
-  <div class="text-center max-w-2xl mx-auto px-6">
-    <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4">
-      Track Any Product’s Price
-    </h1>
-    <p class="text-lg md:text-xl text-slate-600 mb-8">
-      Paste any product link from Amazon, Walmart, Target, Best Buy & more. We'll alert you instantly when the price drops.
+<body class="min-h-screen flex flex-col pt-20">
+
+  <nav class="w-full fixed top-0 left-0 z-20 bg-white/80 backdrop-blur-md shadow-sm">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <img src="https://usepeelr.com/peelr-logo.png"
+     class="h-12 sm:h-14 md:h-16 lg:h-20 object-contain shrink-0" />
+
+    <div class="hidden md:flex gap-8 text-slate-700 font-medium">
+      <a href="#hero" class="nav-link hover:text-blue-600 transition">Home</a>
+      <a href="#how" class="nav-link hover:text-blue-600 transition">How It Works</a>
+      <a href="#amazon" class="nav-link hover:text-blue-600 transition">Amazon Help</a>
+      <a href="#contact" class="nav-link hover:text-blue-600 transition">Contact</a>
+    </div>
+  </div>
+</nav>
+
+  <div id="hero" class="pt-32 pb-28 text-center px-6 max-w-3xl mx-auto">
+  <h1 class="text-4xl md:text-5xl font-bold text-slate-800 leading-snug">
+  Stop Checking Prices.<br />Start Getting Alerts.
+</h1>
+
+  <p class="mt-4 text-lg md:text-xl text-slate-600">
+    Peelr watches prices at Walmart, Best Buy, Target, and thousands more.  
+    Get instant alerts during Black Friday.
+  </p>
+
+  <div class="mt-10 w-full max-w-2xl mx-auto bg-white shadow-xl border border-white/40 rounded-2xl overflow-hidden 
+            flex flex-col sm:flex-row">
+  
+  <input id="product_url"
+    type="text"
+    placeholder="Paste a product link..."
+    class="flex-1 px-5 py-4 text-lg bg-transparent text-slate-700 focus:outline-none w-full" />
+
+  <button id="track_btn"
+    class="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white text-lg font-semibold">
+    Track Price
+  </button>
+</div>
+
+  <p class="mt-3 text-slate-600 text-sm">
+    Supports: Walmart • Target • Best Buy • More
+  </p>
+</div>
+  </div>
+
+  <section id="how" class="py-24 bg-white/60 backdrop-blur-lg w-full">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold text-slate-900 mb-12">How It Works</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="glass p-10 rounded-2xl shadow-md">
+        <div class="text-5xl mb-4">🔗</div>
+        <h3 class="font-semibold text-lg">1. Paste a Link</h3>
+        <p class="text-slate-600 mt-2">Drop in any product you're watching.</p>
+      </div>
+
+      <div class="glass p-10 rounded-2xl shadow-md">
+        <div class="text-5xl mb-4">👀</div>
+        <h3 class="font-semibold text-lg">2. Peelr Monitors Prices</h3>
+        <p class="text-slate-600 mt-2">We track price changes 24/7.</p>
+      </div>
+
+      <div class="glass p-10 rounded-2xl shadow-md">
+        <div class="text-5xl mb-4">📱</div>
+        <h3 class="font-semibold text-lg">3. Get Instant Alerts</h3>
+        <p class="text-slate-600 mt-2">Be first to know when it drops.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="amazon" class="py-24 bg-blue-50 border-t border-blue-100 w-full">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold text-slate-900 mb-4">Help Unlock Amazon Tracking</h2>
+
+    <p class="text-slate-700 max-w-2xl mx-auto mb-10">
+      We're close to unlocking automatic Amazon tracking! We need a few more sales events to get official API access from Amazon. You can help by using our link below when you shop. Every purchase gets us closer to giving you the instant alerts you deserve for all Amazon products. We appreciate your support. In the meantime, use Peelr for instant alerts on other stores like Walmart, Target, and thousands more!
     </p>
 
-    <!-- Input Box -->
-    <div class="w-full max-w-xl mx-auto flex shadow-lg rounded-xl overflow-hidden bg-white">
-      <input
-        type="text"
-        placeholder="Enter product URL here"
-        class="flex-1 px-4 py-3 text-slate-700 text-lg focus:outline-none"
-      />
-      <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 font-semibold">
-        Track
-      </button>
-    </div>
+    <div class="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-xl overflow-hidden border border-blue-100
+            flex flex-col sm:flex-row">
+  
+  <input id="amazon_url"
+    type="text"
+    placeholder="Paste an Amazon link..."
+    class="flex-1 px-4 py-4 text-lg bg-transparent focus:outline-none w-full" />
 
-    <!-- Trust Icons -->
-    <div class="mt-6 text-slate-600 text-sm">
-      Works with: <span class="font-semibold">Amazon • Walmart • Target • Best Buy • More</span>
-    </div>
-  </div>
+  <button id="amazon_btn"
+    class="w-full sm:w-auto px-8 py-4 bg-green-600 hover:bg-green-700 text-white text-lg font-semibold">
+    Support & Visit
+  </button>
+</div>
 
-  <!-- Decorative Winter Element -->
-  <div class="mt-16 w-full flex justify-center">
-    <div class="w-24 h-24 opacity-20">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" class="text-blue-300">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2" d="M12 2v20m10-10H2m15.364-7.364L6.636 18.364m0-14.728l10.728 10.728" />
-      </svg>
-    </div>
-  </div>
+<p id="amazon_error"
+   class="text-red-600 text-sm mt-3 text-center hidden">
+</p>
+</section>
 
-  <!-- Footer -->
-  <footer class="mt-20 mb-10 text-slate-500 text-sm">
+  <footer id="contact" class="mt-20 mb-10 text-slate-500 text-sm">
     © 2025 Peelr. All rights reserved.
   </footer>
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/static/sw.js");
+    }
+  </script>
+
+  <script src="/push.js"></script>
+
+  <!-- SUCCESS MODAL -->
+  <div id="successModal"
+       class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+    <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
+
+      <button id="closeSuccessModal"
+              class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+        ×
+      </button>
+
+      <div class="flex flex-col items-center text-center space-y-4 animate-step">
+        <div class="text-5xl">🎉</div>
+
+        <h2 class="text-2xl font-semibold text-gray-900">
+          Success!
+        </h2>
+
+        <p class="text-gray-600 text-lg">
+          We are now tracking this item.<br>
+          Keep an eye out for a notification!
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERROR MODAL -->
+<div id="errorModal"
+     class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
+
+    <button id="closeErrorModal"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+      ×
+    </button>
+
+    <div class="flex flex-col items-center text-center space-y-4 animate-step">
+      <div class="text-5xl">⚠️</div>
+
+      <h2 class="text-2xl font-semibold text-gray-900">
+        Oops!
+      </h2>
+
+      <p id="errorMessage" class="text-gray-600 text-lg"></p>
+    </div>
+  </div>
+</div>
+
+  <!-- MAIN MODAL (STEPS + LOADING INSIDE SAME MODAL) -->
+  <div id="previewModal"
+       class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+
+    <div id="modalCard"
+         class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in relative">
+
+      <button id="closePreviewModal"
+              class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+        ×
+      </button>
+
+      <div id="modalStepContainer" class="animate-step"></div>
+
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("previewModal");
+    const modalContainer = document.getElementById("modalStepContainer");
+    const closePreviewModal = document.getElementById("closePreviewModal");
+    const trackBtn = document.getElementById("track_btn");
+
+    const successModal = document.getElementById("successModal");
+    const closeSuccessModal = document.getElementById("closeSuccessModal");
+
+    closeSuccessModal.onclick = () => successModal.classList.add("hidden");
+    successModal.onclick = (e) => { if (e.target === successModal) successModal.classList.add("hidden"); };
+
+    let CURRENT_PRODUCT = null;
+    let selectedPriceMode = null;
+
+const errorModal = document.getElementById("errorModal");
+const closeErrorModal = document.getElementById("closeErrorModal");
+const errorMessage = document.getElementById("errorMessage");
+
+function showError(msg) {
+  errorMessage.textContent = msg;
+  errorModal.classList.remove("hidden");
+}
+
+closeErrorModal.onclick = () => errorModal.classList.add("hidden");
+errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.add("hidden"); };
+
+    /* STEP 1 */
+    function renderStep1() {
+      modalContainer.innerHTML = `
+        <div class="animate-step">
+          <div class="w-full flex justify-center mb-4">
+            <img src="${CURRENT_PRODUCT.image}" class="max-h-48 rounded-lg shadow object-contain" />
+          </div>
+
+          <h2 class="text-lg font-semibold text-center text-gray-900 mb-1">${CURRENT_PRODUCT.title}</h2>
+
+          <p class="text-sm text-center text-gray-500 mb-1">
+            Merchant: <span class="font-medium">${CURRENT_PRODUCT.merchant}</span>
+          </p>
+
+          <p class="text-xl text-center font-bold text-gray-900 mb-4">
+            $${CURRENT_PRODUCT.price}
+          </p>
+
+          <div class="flex flex-col gap-3">
+            <button id="track_price" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+              Track Price
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("track_price").onclick = renderStepPrice;
+    }
+
+    /* STEP 2 */
+    function renderStepPrice() {
+      selectedPriceMode = null;
+
+      modalContainer.innerHTML = `
+        <div class="animate-step">
+          <h2 class="text-xl font-semibold text-center text-gray-900 mb-4">
+            How do you want to track price?
+          </h2>
+
+          <div class="flex flex-col gap-3">
+            <button id="price_any"
+              class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold select-none">
+              Notify me when it drops
+            </button>
+
+            <button id="price_target"
+              class="w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold select-none">
+              Notify me when it hits my price
+            </button>
+
+            <input id="targetInput"
+              class="hidden w-full px-4 py-3 mt-2 border rounded-lg text-lg"
+              type="number" placeholder="Enter target price" />
+
+            <button id="continueBtn"
+              class="w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-semibold cursor-not-allowed">
+              Continue
+            </button>
+          </div>
+        </div>
+      `;
+
+      const btnAny = document.getElementById("price_any");
+      const btnTarget = document.getElementById("price_target");
+      const priceInput = document.getElementById("targetInput");
+      const continueBtn = document.getElementById("continueBtn");
+
+      function updateContinueState() {
+        let valid = false;
+
+        if (selectedPriceMode === "drop") valid = true;
+        if (selectedPriceMode === "drop_to_price" && priceInput.value.trim() !== "") valid = true;
+
+        if (valid) {
+          continueBtn.disabled = false;
+          continueBtn.className =
+            "w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold cursor-pointer";
+        } else {
+          continueBtn.disabled = true;
+          continueBtn.className =
+            "w-full bg-gray-300 text-gray-500 py-3 rounded-lg font-semibold cursor-not-allowed";
+        }
+      }
+
+      btnAny.onclick = () => {
+        selectedPriceMode = "drop";
+        priceInput.classList.add("hidden");
+
+        btnAny.className = "w-full bg-blue-600 text-white py-3 rounded-lg font-semibold";
+        btnTarget.className = "w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold";
+
+        updateContinueState();
+      };
+
+      btnTarget.onclick = () => {
+        selectedPriceMode = "drop_to_price";
+        priceInput.classList.remove("hidden");
+
+        btnTarget.className = "w-full bg-purple-600 text-white py-3 rounded-lg font-semibold";
+        btnAny.className = "w-full bg-gray-200 text-gray-800 py-3 rounded-lg font-semibold";
+
+        updateContinueState();
+      };
+
+      priceInput.addEventListener("input", updateContinueState);
+
+      continueBtn.onclick = () => {
+        if (continueBtn.disabled) return;
+        const targetValue =
+          selectedPriceMode === "drop_to_price" ? priceInput.value.trim() : null;
+        renderStepScope(selectedPriceMode, targetValue);
+      };
+    }
+
+    /* STEP 3 */
+    function renderStepScope(mode, targetPrice = null) {
+      modalContainer.innerHTML = `
+        <div class="animate-step">
+          <h2 class="text-xl font-semibold text-center text-gray-900 mb-4">
+            Track at one store or everywhere?
+          </h2>
+
+          <div class="flex flex-col gap-3">
+            <button id="scope_single"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+              Just This Store
+            </button>
+
+            <button id="scope_multi"
+                    class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
+              Everywhere (All Stores)
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("scope_single").onclick = () => {
+  createWatch(mode, targetPrice, "single", false);
+};
+
+document.getElementById("scope_multi").onclick = () => {
+  createWatch(mode, targetPrice, "multi", true);
+};
+    }
+
+function showLoading() {
+  modalContainer.innerHTML = `
+    <div class="animate-step text-center py-10">
+      <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden mb-6">
+        <div id="loadingProgress"
+             class="h-full bg-green-500"
+             style="width: 0%; transition: width 0.7s ease;">
+        </div>
+      </div>
+
+      <h2 class="text-lg font-semibold text-gray-900">
+        Searching for this product at other stores…
+      </h2>
+
+      <p class="text-gray-500 text-sm mt-2">
+        Please wait a moment.
+      </p>
+    </div>
+  `;
+
+  setTimeout(() => {
+    const bar = document.getElementById("loadingProgress");
+    let percent = 0;
+
+    const interval = setInterval(() => {
+      percent += Math.random() * 12;
+
+      if (percent >= 90) {
+        percent = 90;
+        clearInterval(interval);
+      }
+
+      bar.style.width = percent + "%";
+    }, 500);
+  }, 50);
+}
+
+    async function createWatch(mode, price, scope, shouldLoad = false) {
+  if (shouldLoad) showLoading();
+
+  const token = await getPushSubscription(CURRENT_PRODUCT.product_id);
+
+  if (!CURRENT_PRODUCT) {
+    showError("Preview data missing — refresh and try again.");
+    return;
+  }
+
+  const res = await fetch("/api/create-watch", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      product_id: CURRENT_PRODUCT.product_id,
+      mode,
+      scope,
+      target_price: price,
+      push_token: JSON.parse(atob(token))
+    })
+  });
+
+  const out = await res.json();
+
+  if (!res.ok) return alert(out.error);
+
+  modal.classList.add("hidden");
+  successModal.classList.remove("hidden");
+
+  confetti({
+    particleCount: 120,
+    spread: 70,
+    origin: { y: 0.4 }
+  });
+}
+
+    /* PREVIEW START */
+    trackBtn.onclick = async () => {
+      const url = document.getElementById("product_url").value.trim();
+      if (!url) return showError("Please enter a product link.");
+
+      const res = await fetch("/api/preview-product", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url })
+      });
+
+      const data = await res.json();
+      if (!res.ok) return showError(data.error || "We couldn't find this product. Try a different one.");
+
+      CURRENT_PRODUCT = data;
+      renderStep1();
+      modal.classList.remove("hidden");
+    };
+
+    closePreviewModal.onclick = () => modal.classList.add("hidden");
+    modal.onclick = (e) => { if (e.target === modal) modal.classList.add("hidden") };
+  </script>
+
+  <script>
+  document.querySelectorAll(".nav-link").forEach(link => {
+    link.addEventListener("click", e => {
+      e.preventDefault();
+      const id = link.getAttribute("href");
+      const el = document.querySelector(id);
+      if (el) window.scrollTo({
+        top: el.offsetTop - 80,
+        behavior: "smooth"
+      });
+    });
+  });
+
+  // -----------------------------
+// AMAZON SUPPORT LINK HANDLER
+// -----------------------------
+const amazonInput = document.getElementById("amazon_url");
+const amazonBtn = document.getElementById("amazon_btn");
+const amazonError = document.getElementById("amazon_error");
+
+amazonBtn.onclick = async () => {
+  const url = amazonInput.value.trim();
+
+  // Clear old error
+  amazonError.classList.add("hidden");
+  amazonError.textContent = "";
+
+  if (!url) {
+    amazonError.textContent = "Please paste an Amazon link.";
+    amazonError.classList.remove("hidden");
+    return;
+  }
+
+  // Send to backend
+  const formData = new FormData();
+  formData.append("amazon_url", url);
+
+  const res = await fetch("/amazon-support", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    // Show backend error message
+    amazonError.textContent = data.error || "Invalid Amazon link.";
+    amazonError.classList.remove("hidden");
+    return;
+  }
+
+  window.location.href = data.affiliate_url;
+};
+
+</script>
+
 </body>
 </html>
