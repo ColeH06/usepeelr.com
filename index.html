@@ -22,6 +22,10 @@
   font-family: Inter, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 .glass {
   backdrop-filter: blur(14px);
   background: rgba(255, 255, 255, 0.22);
@@ -55,7 +59,7 @@
     <div class="hidden md:flex gap-8 text-slate-700 font-medium">
       <a href="#hero" class="nav-link hover:text-blue-600 transition">Home</a>
       <a href="#how" class="nav-link hover:text-blue-600 transition">How It Works</a>
-      <a href="#amazon" class="nav-link hover:text-blue-600 transition">Amazon Help</a>
+      <a href="#amazon" class="nav-link hover:text-blue-600 transition">Where's Amazon?</a>
       <a href="#contact" class="nav-link hover:text-blue-600 transition">Contact</a>
     </div>
 
@@ -393,7 +397,7 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
 
             <button id="scope_multi"
                     class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
-              Everywhere (All Stores)
+              Everywhere it's available
             </button>
           </div>
         </div>
@@ -506,20 +510,32 @@ function showLoading() {
 
   <script>
   document.querySelectorAll(".nav-link").forEach(link => {
-    link.addEventListener("click", e => {
-      e.preventDefault();
-      const id = link.getAttribute("href");
-      const el = document.querySelector(id);
-      if (el) window.scrollTo({
-        top: el.offsetTop - 80,
-        behavior: "smooth"
-      });
-    });
-  });
+  link.addEventListener("click", e => {
+    e.preventDefault();
 
-  // -----------------------------
-// AMAZON SUPPORT LINK HANDLER
-// -----------------------------
+    const targetID = link.getAttribute("href");
+    const targetEl = document.querySelector(targetID);
+
+    if (!targetEl) return;
+
+    const navHeight = document.querySelector("nav").offsetHeight;
+
+    const targetPos =
+      targetEl.getBoundingClientRect().top + window.pageYOffset;
+
+    window.scrollTo({
+      top: targetPos - navHeight - 10,
+      behavior: "smooth"
+    });
+
+    // Auto-close mobile menu if open
+    const mobileMenu = document.getElementById("mobileMenu");
+    if (!mobileMenu.classList.contains("hidden")) {
+      mobileMenu.classList.add("hidden");
+    }
+  });
+});
+
 const amazonInput = document.getElementById("amazon_url");
 const amazonBtn = document.getElementById("amazon_btn");
 const amazonError = document.getElementById("amazon_error");
