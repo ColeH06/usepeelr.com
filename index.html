@@ -182,32 +182,75 @@ html {
 </div>
   </div>
 
-  <!-- LOGO BELT -->
+ <style>
+/* ===== FIXED MARQUEE ===== */
+
+.logo-marquee {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.logo-track > div {
+  display: flex;
+  gap: 3rem; /* same as space-x-12 */
+}
+
+.logo-track img {
+  height: 48px;
+  filter: grayscale(100%) opacity(70%);
+  transition: opacity .2s;
+}
+
+.logo-track img:hover {
+  opacity: 1;
+}
+
+/* Move exactly one full group width */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+</style>
+
 <section class="py-12">
   <div class="logo-marquee">
-    <div class="logo-track space-x-12 px-4">
+    <div class="logo-track">
 
-      <img src="/static/icons/walmart-logo.png" alt="">
-      <img src="/static/icons/target-logo.png" alt="">
-      <img src="/static/icons/bestbuy-logo.png" alt="">
-      <img src="/static/icons/macys-logo.png" alt="">
-      <img src="/static/icons/nike-logo.png" alt="">
-      <img src="/static/icons/kohls-logo.png" alt="">
-      <img src="/static/icons/sephora-logo.png" alt="">
-      <img src="/static/icons/nordstrom-logo.png" alt="">
-      <img src="/static/icons/lowes-logo.png" alt="">
-      <img src="/static/icons/homedepot-logo.png" alt="">
+      <!-- GROUP 1 -->
+      <div>
+        <img src="/static/icons/walmart-logo.png">
+        <img src="/static/icons/target-logo.png">
+        <img src="/static/icons/bestbuy-logo.png">
+        <img src="/static/icons/macys-logo.png">
+        <img src="/static/icons/nike-logo.png">
+        <img src="/static/icons/kohls-logo.png">
+        <img src="/static/icons/sephora-logo.png">
+        <img src="/static/icons/nordstrom-logo.png">
+        <img src="/static/icons/lowes-logo.png">
+        <img src="/static/icons/homedepot-logo.png">
+      </div>
 
-      <img src="/static/icons/walmart-logo.png" alt="">
-      <img src="/static/icons/target-logo.png" alt="">
-      <img src="/static/icons/bestbuy-logo.png" alt="">
-      <img src="/static/icons/macys-logo.png" alt="">
-      <img src="/static/icons/nike-logo.png" alt="">
-      <img src="/static/icons/kohls-logo.png" alt="">
-      <img src="/static/icons/sephora-logo.png" alt="">
-      <img src="/static/icons/nordstrom-logo.png" alt="">
-      <img src="/static/icons/lowes-logo.png" alt="">
-      <img src="/static/icons/homedepot-logo.png" alt="">
+      <!-- GROUP 2 (exact duplicate) -->
+      <div>
+        <img src="/static/icons/walmart-logo.png">
+        <img src="/static/icons/target-logo.png">
+        <img src="/static/icons/bestbuy-logo.png">
+        <img src="/static/icons/macys-logo.png">
+        <img src="/static/icons/nike-logo.png">
+        <img src="/static/icons/kohls-logo.png">
+        <img src="/static/icons/sephora-logo.png">
+        <img src="/static/icons/nordstrom-logo.png">
+        <img src="/static/icons/lowes-logo.png">
+        <img src="/static/icons/homedepot-logo.png">
+      </div>
 
     </div>
   </div>
