@@ -619,30 +619,54 @@ window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
   }
 };
 
+  function isIOS() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent);
+  }
+
+  function isInstalled() {
+    return window.navigator.standalone === true;
+  }
+
+  function showInstallModal() {
+    document.getElementById("installPWAModal").classList.remove("hidden");
+  }
+
+  document.getElementById("closeInstallPWAModal").onclick =
+    () => document.getElementById("installPWAModal").classList.add("hidden");
+
+  document.getElementById("installOkBtn").onclick =
+    () => document.getElementById("installPWAModal").classList.add("hidden");
+
     trackBtn.onclick = async () => {
-      const url = document.getElementById("product_url").value.trim();
-      if (!url) return showError("Please enter a product link.");
+  const url = document.getElementById("product_url").value.trim();
+  if (!url) return showError("Please enter a product link.");
+
+  // If on iOS AND not installed → stop flow + show modal
+  if (isIOS() && !isInstalled()) {
+    showInstallModal();
+    return;
+  }
 
   if (!/^https?:\/\//i.test(url)) {
     return showError("Please enter a valid URL starting with http:// or https://");
   }
 
-      const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/preview-product", {
-  method: "POST",
-  headers: { 
-    "Content-Type": "application/json",
-    "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
-  },
-  body: JSON.stringify({ url })
-});
+  const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/preview-product", {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
+    },
+    body: JSON.stringify({ url })
+  });
 
-      const data = await res.json();
-      if (!res.ok) return showError(data.error || "We couldn't find this product. Try a different one.");
+  const data = await res.json();
+  if (!res.ok) return showError(data.error || "We couldn't find this product. Try a different one.");
 
-      CURRENT_PRODUCT = data;
-      renderStep1();
-      modal.classList.remove("hidden");
-    };
+  CURRENT_PRODUCT = data;
+  renderStep1();
+  modal.classList.remove("hidden");
+};
 
     const amazonModal = document.getElementById("amazonSoonModal");
 const closeAmazonSoon = document.getElementById("closeAmazonSoonModal");
@@ -754,6 +778,47 @@ amazonBtn.onclick = async () => {
     mobileMenu.classList.toggle("hidden");
   });
 </script>
+
+<!-- INSTALL PWA MODAL -->
+<div id="installPWAModal"
+     class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
+
+    <button id="closeInstallPWAModal"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+      ×
+    </button>
+
+    <div class="flex flex-col items-center text-center space-y-4 animate-step">
+
+      <div class="text-5xl">📲</div>
+
+      <h2 class="text-2xl font-semibold text-gray-900">
+        Install Peelr for Price Alerts
+      </h2>
+
+      <p class="text-gray-600 text-lg leading-relaxed">
+        To receive instant notifications, add Peelr to your Home Screen.
+      </p>
+
+      <div class="w-full bg-gray-50 border rounded-lg p-4 text-left">
+        <p class="font-medium text-gray-800 mb-2">How to install:</p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-1">
+          <li>Tap the <span class="font-semibold">Share</span> icon at the bottom.</li>
+          <li>Scroll and select <span class="font-semibold">Add to Home Screen</span>.</li>
+          <li>Open Peelr from your Home Screen and try again.</li>
+        </ol>
+      </div>
+
+      <button id="installOkBtn"
+              class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+        Got It
+      </button>
+
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
