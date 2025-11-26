@@ -619,24 +619,6 @@ window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
   }
 };
 
-  function isIOS() {
-    return /iphone|ipad|ipod/i.test(navigator.userAgent);
-  }
-
-  function isInstalled() {
-    return window.navigator.standalone === true;
-  }
-
-  function showInstallModal() {
-    document.getElementById("installPWAModal").classList.remove("hidden");
-  }
-
-  document.getElementById("closeInstallPWAModal").onclick =
-    () => document.getElementById("installPWAModal").classList.add("hidden");
-
-  document.getElementById("installOkBtn").onclick =
-    () => document.getElementById("installPWAModal").classList.add("hidden");
-
     trackBtn.onclick = async () => {
   const url = document.getElementById("product_url").value.trim();
   if (!url) return showError("Please enter a product link.");
@@ -815,10 +797,32 @@ amazonBtn.onclick = async () => {
               class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold">
         Got It
       </button>
+      
 
     </div>
   </div>
 </div>
+
+<script>
+  function isIOS() {
+  return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function isInstalled() {
+  return window.navigator.standalone === true;
+}
+
+function showInstallModal() {
+  document.getElementById("installPWAModal").classList.remove("hidden");
+}
+
+document.getElementById("closeInstallPWAModal").onclick =
+  () => document.getElementById("installPWAModal").classList.add("hidden");
+
+document.getElementById("installOkBtn").onclick =
+  () => document.getElementById("installPWAModal").classList.add("hidden");
+
+</script>
 
 </body>
 </html>
