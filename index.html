@@ -265,9 +265,11 @@ html {
 
   <!-- MAIN MODAL (STEPS + LOADING INSIDE SAME MODAL) -->
   <div id="previewModal"
+     style="pointer-events:auto;"
        class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
 
     <div id="modalCard"
+     style="pointer-events:auto; touch-action:manipulation;"
          class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in relative">
 
       <button id="closePreviewModal"
@@ -501,14 +503,9 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
     createWatch(mode, targetPrice, "multi", true);
   }
 
-btnSingle.addEventListener("pointerdown", handleSingle);
-btnMulti.addEventListener("pointerdown", handleMulti);
+  btnSingle.addEventListener("click", handleSingle);
+  btnMulti.addEventListener("click", handleMulti);
 
-btnSingle.addEventListener("click", handleSingle);
-btnMulti.addEventListener("click", handleMulti);
-
-btnSingle.addEventListener("touchstart", handleSingle, { passive: true });
-btnMulti.addEventListener("touchstart", handleMulti, { passive: true });
 }
 
 function showLoading() {
