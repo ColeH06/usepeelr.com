@@ -492,19 +492,6 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
       </div>
     </div>
   `;
-
-  const s = document.getElementById("scope_single");
-  const m = document.getElementById("scope_multi");
-
-  s.addEventListener("click", (e) => {
-    e.stopPropagation();
-    createWatch(mode, targetPrice, "single", false);
-  });
-
-  m.addEventListener("click", (e) => {
-    e.stopPropagation();
-    createWatch(mode, targetPrice, "multi", true);
-  });
 }
 
 modal.onclick = (e) => {
