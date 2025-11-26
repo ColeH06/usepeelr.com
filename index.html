@@ -197,15 +197,12 @@ html {
     © 2025 Peelr. All rights reserved.
   </footer>
 
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("/static/sw.js");
-    }
-  </script>
+<script>
+  const PEELR_CLIENT_TOKEN = "f57051c6080a5d89c88067649e8cf127";
+</script>
 
   <script src="/push.js"></script>
 
-  <!-- SUCCESS MODAL -->
   <div id="successModal"
        class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
 
@@ -271,6 +268,38 @@ html {
     </div>
   </div>
 
+  <!-- AMAZON COMING SOON MODAL -->
+<div id="amazonSoonModal"
+     class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
+
+    <button id="closeAmazonSoonModal"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+      ×
+    </button>
+
+    <div class="flex flex-col items-center text-center space-y-4 animate-step">
+      <div class="text-5xl">📦</div>
+
+      <h2 class="text-2xl font-semibold text-gray-900">
+        Amazon Tracking Coming Soon!
+      </h2>
+
+      <p class="text-gray-600 text-lg">
+        Peelr is unlocking Amazon support soon.  
+        In the meantime, you can still support us by using our Amazon link!
+      </p>
+
+      <button id="amazonLearnMore"
+              class="text-blue-600 font-semibold mt-2 transition
+                     hover:text-blue-800 hover:underline active:scale-95">
+        Learn why →
+      </button>
+    </div>
+  </div>
+</div>
+
   <script>
     const modal = document.getElementById("previewModal");
     const modalContainer = document.getElementById("modalStepContainer");
@@ -291,6 +320,12 @@ const closeErrorModal = document.getElementById("closeErrorModal");
 const errorMessage = document.getElementById("errorMessage");
 
 function showError(msg) {
+  if (msg.toLowerCase().includes("amazon.com")) {
+    const amazonModal = document.getElementById("amazonSoonModal");
+    amazonModal.classList.remove("hidden");
+    return;
+  }
+
   errorMessage.textContent = msg;
   errorModal.classList.remove("hidden");
 }
@@ -490,17 +525,20 @@ function showLoading() {
     return;
   }
 
-  const res = await fetch("/api/create-watch", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      product_id: CURRENT_PRODUCT.product_id,
-      mode,
-      scope,
-      target_price: price,
-      push_token: JSON.parse(atob(token))
-    })
-  });
+  const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/create-watch", {
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
+  },
+  body: JSON.stringify({
+    product_id: CURRENT_PRODUCT.product_id,
+    mode,
+    scope,
+    target_price: price,
+    push_token: token
+  })
+});
 
   const out = await res.json();
 
@@ -516,16 +554,22 @@ function showLoading() {
   });
 }
 
-    /* PREVIEW START */
     trackBtn.onclick = async () => {
       const url = document.getElementById("product_url").value.trim();
       if (!url) return showError("Please enter a product link.");
 
-      const res = await fetch("/api/preview-product", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url })
-      });
+  if (!/^https?:\/\//i.test(url)) {
+    return showError("Please enter a valid URL starting with http:// or https://");
+  }
+
+      const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/preview-product", {
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
+  },
+  body: JSON.stringify({ url })
+});
 
       const data = await res.json();
       if (!res.ok) return showError(data.error || "We couldn't find this product. Try a different one.");
@@ -534,6 +578,30 @@ function showLoading() {
       renderStep1();
       modal.classList.remove("hidden");
     };
+
+    const amazonModal = document.getElementById("amazonSoonModal");
+const closeAmazonSoon = document.getElementById("closeAmazonSoonModal");
+const amazonLearnMore = document.getElementById("amazonLearnMore");
+
+closeAmazonSoon.onclick = () => amazonModal.classList.add("hidden");
+
+amazonModal.onclick = (e) => {
+  if (e.target === amazonModal) amazonModal.classList.add("hidden");
+};
+
+amazonLearnMore.onclick = () => {
+  amazonModal.classList.add("hidden");
+
+  const amazonSection = document.querySelector("#amazon");
+  const navHeight = document.querySelector("nav").offsetHeight;
+
+  const offset = amazonSection.getBoundingClientRect().top + window.pageYOffset - navHeight - 10;
+
+  window.scrollTo({
+    top: offset,
+    behavior: "smooth"
+  });
+};
 
     closePreviewModal.onclick = () => modal.classList.add("hidden");
     modal.onclick = (e) => { if (e.target === modal) modal.classList.add("hidden") };
@@ -588,7 +656,7 @@ amazonBtn.onclick = async () => {
   const formData = new FormData();
   formData.append("amazon_url", url);
 
-  const res = await fetch("/amazon-support", {
+  const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/amazon-support", {
     method: "POST",
     body: formData
   });
