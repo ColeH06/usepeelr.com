@@ -220,36 +220,84 @@ html {
 }
 </style>
 
+<!-- ========================= -->
+<!--    RETAILER LOGO BELT    -->
+<!-- ========================= -->
+
+<style>
+  .logo-marquee {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  }
+
+  .logo-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 26s linear infinite;
+  }
+
+  /* Spread out the two groups */
+  .logo-track > div {
+    display: flex;
+    gap: 5rem; /* adjust spacing here */
+  }
+
+  /* Fixed width boxes so logos don't hug each other */
+  .logo-box {
+    width: 120px; /* <- consistent width for every logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-box img {
+    max-height: 48px;
+    max-width: 100%;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(70%);
+    transition: opacity .2s;
+  }
+
+  .logo-box img:hover {
+    opacity: 1;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+</style>
+
 <section class="py-12">
   <div class="logo-marquee">
     <div class="logo-track">
 
-      <!-- GROUP 1 -->
       <div>
-        <img src="/static/icons/walmart-logo.png">
-        <img src="/static/icons/target-logo.png">
-        <img src="/static/icons/bestbuy-logo.png">
-        <img src="/static/icons/macys-logo.png">
-        <img src="/static/icons/nike-logo.png">
-        <img src="/static/icons/kohls-logo.png">
-        <img src="/static/icons/sephora-logo.png">
-        <img src="/static/icons/nordstrom-logo.png">
-        <img src="/static/icons/lowes-logo.png">
-        <img src="/static/icons/homedepot-logo.png">
+        <div class="logo-box"><img src="/static/icons/walmart-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/target-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/bestbuy-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/macys-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/nike-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/kohls-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/sephora-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/nordstrom-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/lowes-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/homedepot-logo.png"></div>
       </div>
 
-      <!-- GROUP 2 (exact duplicate) -->
       <div>
-        <img src="/static/icons/walmart-logo.png">
-        <img src="/static/icons/target-logo.png">
-        <img src="/static/icons/bestbuy-logo.png">
-        <img src="/static/icons/macys-logo.png">
-        <img src="/static/icons/nike-logo.png">
-        <img src="/static/icons/kohls-logo.png">
-        <img src="/static/icons/sephora-logo.png">
-        <img src="/static/icons/nordstrom-logo.png">
-        <img src="/static/icons/lowes-logo.png">
-        <img src="/static/icons/homedepot-logo.png">
+        <div class="logo-box"><img src="/static/icons/walmart-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/target-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/bestbuy-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/macys-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/nike-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/kohls-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/sephora-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/nordstrom-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/lowes-logo.png"></div>
+        <div class="logo-box"><img src="/static/icons/homedepot-logo.png"></div>
       </div>
 
     </div>
