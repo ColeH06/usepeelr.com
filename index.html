@@ -477,36 +477,29 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
       </h2>
 
       <div class="flex flex-col gap-3">
-        <button id="scope_single"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+        <button
+            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
+            onclick="event.stopPropagation(); createWatch('${mode}', '${targetPrice}', 'single', false)">
           Just This Store
         </button>
 
-        <button id="scope_multi"
-                class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
+        <button
+            class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold"
+            onclick="event.stopPropagation(); createWatch('${mode}', '${targetPrice}', 'multi', true)">
           Everywhere it's available
         </button>
       </div>
     </div>
   `;
-
-  const btnSingle = document.getElementById("scope_single");
-  const btnMulti  = document.getElementById("scope_multi");
-
-  function handleSingle(e) {
-    e.stopPropagation();
-    createWatch(mode, targetPrice, "single", false);
-  }
-
-  function handleMulti(e) {
-    e.stopPropagation();
-    createWatch(mode, targetPrice, "multi", true);
-  }
-
-  btnSingle.addEventListener("click", handleSingle);
-  btnMulti.addEventListener("click", handleMulti);
-
 }
+
+modal.onclick = (e) => {
+  if (e.target === modal) modal.classList.add("hidden");
+};
+
+modal.addEventListener("touchstart", (e) => {
+  if (e.target === modal) modal.classList.add("hidden");
+}, { passive: true });
 
 function showLoading() {
   modalContainer.innerHTML = `
