@@ -618,7 +618,11 @@ amazonLearnMore.onclick = () => {
 };
 
     closePreviewModal.onclick = () => modal.classList.add("hidden");
-    modal.onclick = (e) => { if (e.target === modal) modal.classList.add("hidden") };
+    modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.add("hidden");
+  }
+});
   </script>
 
   <script>
