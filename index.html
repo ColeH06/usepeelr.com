@@ -635,8 +635,12 @@ amazonLearnMore.onclick = () => {
 
     closePreviewModal.onclick = () => modal.classList.add("hidden");
 
-modal.addEventListener("click", (e) => e.stopPropagation());
-modal.addEventListener("touchstart", (e) => e.stopPropagation(), { passive: true });
+    modal.onclick = (e) => {
+  if (e.target === modal) {
+    modal.classList.add("hidden");
+  }
+};
+
   </script>
 
   <script>
