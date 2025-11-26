@@ -22,6 +22,47 @@
   font-family: Inter, sans-serif;
 }
 
+/* ====== LOGO CONVEYOR BELT ====== */
+
+.logo-marquee {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 20%,
+    black 80%,
+    transparent
+  );
+}
+
+.logo-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-marquee 18s linear infinite;
+}
+
+.logo-track img {
+  height: 48px;
+  width: auto;
+  filter: grayscale(100%) opacity(70%);
+  transition: opacity .2s;
+}
+
+.logo-track img:hover {
+  opacity: 1;
+}
+
+@keyframes scroll-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -140,6 +181,37 @@ html {
   </p>
 </div>
   </div>
+
+  <!-- LOGO BELT -->
+<section class="py-12">
+  <div class="logo-marquee">
+    <div class="logo-track space-x-12 px-4">
+
+      <img src="/static/icons/walmart-logo.png" alt="">
+      <img src="/static/icons/target-logo.png" alt="">
+      <img src="/static/icons/bestbuy-logo.png" alt="">
+      <img src="/static/icons/macys-logo.png" alt="">
+      <img src="/static/icons/nike-logo.png" alt="">
+      <img src="/static/icons/kohls-logo.png" alt="">
+      <img src="/static/icons/sephora-logo.png" alt="">
+      <img src="/static/icons/nordstrom-logo.png" alt="">
+      <img src="/static/icons/lowes-logo.png" alt="">
+      <img src="/static/icons/homedepot-logo.png" alt="">
+
+      <img src="/static/icons/walmart-logo.png" alt="">
+      <img src="/static/icons/target-logo.png" alt="">
+      <img src="/static/icons/bestbuy-logo.png" alt="">
+      <img src="/static/icons/macys-logo.png" alt="">
+      <img src="/static/icons/nike-logo.png" alt="">
+      <img src="/static/icons/kohls-logo.png" alt="">
+      <img src="/static/icons/sephora-logo.png" alt="">
+      <img src="/static/icons/nordstrom-logo.png" alt="">
+      <img src="/static/icons/lowes-logo.png" alt="">
+      <img src="/static/icons/homedepot-logo.png" alt="">
+
+    </div>
+  </div>
+</section>
 
   <section id="how" class="py-24 bg-white/60 backdrop-blur-lg w-full">
   <div class="max-w-6xl mx-auto px-6 text-center">
@@ -492,19 +564,6 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
       </div>
     </div>
   `;
-
-  const s = document.getElementById("scope_single");
-  const m = document.getElementById("scope_multi");
-
-  s.addEventListener("click", (e) => {
-    e.stopPropagation();
-    createWatch(mode, targetPrice, "single", false);
-  });
-
-  m.addEventListener("click", (e) => {
-    e.stopPropagation();
-    createWatch(mode, targetPrice, "multi", true);
-  });
 }
 
 modal.onclick = (e) => {
