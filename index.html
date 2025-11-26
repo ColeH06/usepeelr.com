@@ -564,6 +564,8 @@ function showLoading() {
     showLoading();
   }
 
+window.createWatch = createWatch;
+
   let token = null;
   try {
     token = await getPushSubscription(CURRENT_PRODUCT.product_id);
