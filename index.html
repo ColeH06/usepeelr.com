@@ -318,6 +318,11 @@ html {
     const closePreviewModal = document.getElementById("closePreviewModal");
     const trackBtn = document.getElementById("track_btn");
 
+    const modalCard = document.getElementById("modalCard");
+
+    modalCard.addEventListener("touchstart", (e) => e.stopPropagation(), { passive: true });
+    modalCard.addEventListener("click", (e) => e.stopPropagation());
+
     const successModal = document.getElementById("successModal");
     const closeSuccessModal = document.getElementById("closeSuccessModal");
 
@@ -627,11 +632,9 @@ amazonLearnMore.onclick = () => {
 };
 
     closePreviewModal.onclick = () => modal.classList.add("hidden");
-    modal.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.classList.add("hidden");
-  }
-});
+
+modal.addEventListener("click", (e) => e.stopPropagation());
+modal.addEventListener("touchstart", (e) => e.stopPropagation(), { passive: true });
   </script>
 
   <script>
