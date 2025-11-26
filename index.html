@@ -803,26 +803,5 @@ amazonBtn.onclick = async () => {
   </div>
 </div>
 
-<script>
-  function isIOS() {
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-
-function isInstalled() {
-  return window.navigator.standalone === true;
-}
-
-function showInstallModal() {
-  document.getElementById("installPWAModal").classList.remove("hidden");
-}
-
-document.getElementById("closeInstallPWAModal").onclick =
-  () => document.getElementById("installPWAModal").classList.add("hidden");
-
-document.getElementById("installOkBtn").onclick =
-  () => document.getElementById("installPWAModal").classList.add("hidden");
-
-</script>
-
 </body>
 </html>
