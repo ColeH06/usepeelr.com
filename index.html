@@ -345,30 +345,33 @@ function showError(msg) {
 closeErrorModal.onclick = () => errorModal.classList.add("hidden");
 errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.add("hidden"); };
 
-    /* STEP 1 */
     function renderStep1() {
-      modalContainer.innerHTML = `
-        <div class="animate-step">
-          <div class="w-full flex justify-center mb-4">
-            <img src="${CURRENT_PRODUCT.image}" class="max-h-48 rounded-lg shadow object-contain" />
-          </div>
+  modalContainer.innerHTML = `
+    <div class="animate-step">
+      <div class="w-full flex justify-center mb-4">
+        <img src="${CURRENT_PRODUCT.image}" 
+             class="max-h-48 rounded-lg shadow object-contain" />
+      </div>
 
-          <h2 class="text-lg font-semibold text-center text-gray-900 mb-1">${CURRENT_PRODUCT.title}</h2>
+      <h2 class="text-lg font-semibold text-center text-gray-900 mb-1">
+        ${CURRENT_PRODUCT.title}
+      </h2>
 
-          <p class="text-sm text-center text-gray-500 mb-1">
-            <span class="font-medium">${CURRENT_PRODUCT.merchant}</span>
-          </p>
+      <p class="text-sm text-center text-gray-500 mb-4">
+        <span class="font-medium">${CURRENT_PRODUCT.merchant}</span>
+      </p>
 
-          <div class="flex flex-col gap-3">
-            <button id="track_price" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
-              Track Price
-            </button>
-          </div>
-        </div>
-      `;
+      <div class="flex flex-col gap-3">
+        <button id="track_price"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+          Track Price
+        </button>
+      </div>
+    </div>
+  `;
 
-      document.getElementById("track_price").onclick = renderStepPrice;
-    }
+  document.getElementById("track_price").onclick = renderStepPrice;
+}
 
     /* STEP 2 */
     function renderStepPrice() {
