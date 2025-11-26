@@ -479,15 +479,17 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
       </h2>
 
       <div class="flex flex-col gap-3">
-        <button id="scope_single"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
-          Just This Store
-        </button>
+        <button
+  class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
+  onclick="safeCreateWatch('${mode}', '${targetPrice}', 'single', false)">
+  Just This Store
+</button>
 
-        <button id="scope_multi"
-                class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
-          Everywhere it's available
-        </button>
+<button
+  class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold"
+  onclick="safeCreateWatch('${mode}', '${targetPrice}', 'multi', true)">
+  Everywhere it's available
+</button>
       </div>
     </div>
   `;
@@ -554,9 +556,6 @@ function showLoading() {
 }
 
     async function createWatch(mode, price, scope, shouldLoad = false) {
-  if (shouldLoad) showLoading();
-
-  async function createWatch(mode, price, scope, shouldLoad = false) {
   DBG("createWatch START: mode=" + mode + " price=" + price + " scope=" + scope);
 
   if (shouldLoad) {
@@ -564,7 +563,10 @@ function showLoading() {
     showLoading();
   }
 
-window.createWatch = createWatch;
+  if (!CURRENT_PRODUCT) {
+    alert("Missing product data. Refresh the page and try again.");
+    return;
+  }
 
   let token = null;
   try {
@@ -572,13 +574,18 @@ window.createWatch = createWatch;
     DBG("got push subscription token");
   } catch (err) {
     DBG("FAILED to get push subscription: " + err);
+    alert("Push permission failed: " + err.message);
+    return;
   }
 
   DBG("sending fetch to backend...");
 
   const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/create-watch", {
     method: "POST",
-    headers: { "Content-Type": "application/json", "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN },
+    headers: { 
+      "Content-Type": "application/json",
+      "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
+    },
     body: JSON.stringify({
       product_id: CURRENT_PRODUCT.product_id,
       mode,
@@ -590,46 +597,20 @@ window.createWatch = createWatch;
 
   DBG("FETCH returned: status=" + res.status);
 
-  const out = await res.json().catch(() => DBG("JSON parse error"));
+  let out = {};
+  try {
+    out = await res.json();
+  } catch (e) {
+    DBG("JSON parse error");
+  }
 
   if (!res.ok) {
     DBG("BACKEND ERROR: " + JSON.stringify(out));
+    alert("Backend error: " + (out.error || "Unknown error"));
     return;
   }
 
   DBG("SUCCESS – Opening success modal");
-  modal.classList.add("hidden");
-  successModal.classList.remove("hidden");
-
-  confetti({ particleCount: 120, spread: 70, origin: { y: 0.4 } });
-}
-
-  const token = await getPushSubscription(CURRENT_PRODUCT.product_id);
-
-  if (!CURRENT_PRODUCT) {
-    showError("Preview data missing — refresh and try again.");
-    return;
-  }
-
-  const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/create-watch", {
-  method: "POST",
-  headers: { 
-    "Content-Type": "application/json",
-    "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
-  },
-  body: JSON.stringify({
-    product_id: CURRENT_PRODUCT.product_id,
-    mode,
-    scope,
-    target_price: price,
-    push_token: token
-  })
-});
-
-  const out = await res.json();
-
-  if (!res.ok) return alert(out.error);
-
   modal.classList.add("hidden");
   successModal.classList.remove("hidden");
 
@@ -639,6 +620,18 @@ window.createWatch = createWatch;
     origin: { y: 0.4 }
   });
 }
+
+window.createWatch = createWatch;
+
+window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
+  try {
+    DBG("SAFE CALL → mode=" + mode + " price=" + price + " scope=" + scope);
+    await createWatch(mode, price, scope, shouldLoad);
+  } catch (err) {
+    alert("ERROR: " + err.message);
+    DBG("SAFE CREATE ERROR: " + err);
+  }
+};
 
     trackBtn.onclick = async () => {
       const url = document.getElementById("product_url").value.trim();
