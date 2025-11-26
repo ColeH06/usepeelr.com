@@ -320,6 +320,10 @@ html {
 
     const modalCard = document.getElementById("modalCard");
 
+    modal.style.pointerEvents = "none";
+    modalCard.style.pointerEvents = "auto";
+    modalCard.style.touchAction = "manipulation";
+
     modalCard.addEventListener("touchstart", (e) => e.stopPropagation(), { passive: true });
     modalCard.addEventListener("click", (e) => e.stopPropagation());
 
@@ -465,7 +469,7 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
 
     function renderStepScope(mode, targetPrice = null) {
   modalContainer.innerHTML = `
-    <div class="animate-step">
+    <div>
       <h2 class="text-xl font-semibold text-center text-gray-900 mb-4">
         Track at one store or everywhere?
       </h2>
@@ -497,13 +501,14 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
     createWatch(mode, targetPrice, "multi", true);
   }
 
-  // Desktop clicks
-  btnSingle.addEventListener("click", handleSingle);
-  btnMulti.addEventListener("click", handleMulti);
+btnSingle.addEventListener("pointerdown", handleSingle);
+btnMulti.addEventListener("pointerdown", handleMulti);
 
-  // Mobile taps
-  btnSingle.addEventListener("touchstart", handleSingle, { passive: true });
-  btnMulti.addEventListener("touchstart", handleMulti, { passive: true });
+btnSingle.addEventListener("click", handleSingle);
+btnMulti.addEventListener("click", handleMulti);
+
+btnSingle.addEventListener("touchstart", handleSingle, { passive: true });
+btnMulti.addEventListener("touchstart", handleMulti, { passive: true });
 }
 
 function showLoading() {
