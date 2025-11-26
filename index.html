@@ -459,36 +459,38 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
       };
     }
 
-    /* STEP 3 */
     function renderStepScope(mode, targetPrice = null) {
-      modalContainer.innerHTML = `
-        <div class="animate-step">
-          <h2 class="text-xl font-semibold text-center text-gray-900 mb-4">
-            Track at one store or everywhere?
-          </h2>
+  modalContainer.innerHTML = `
+    <div class="animate-step">
+      <h2 class="text-xl font-semibold text-center text-gray-900 mb-4">
+        Track at one store or everywhere?
+      </h2>
 
-          <div class="flex flex-col gap-3">
-            <button id="scope_single"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
-              Just This Store
-            </button>
+      <div class="flex flex-col gap-3">
+        <button id="scope_single"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+          Just This Store
+        </button>
 
-            <button id="scope_multi"
-                    class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
-              Everywhere it's available
-            </button>
-          </div>
-        </div>
-      `;
+        <button id="scope_multi"
+                class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
+          Everywhere it's available
+        </button>
+      </div>
+    </div>
+  `;
 
-      document.getElementById("scope_single").onclick = () => {
-  createWatch(mode, targetPrice, "single", false);
-};
+  const btnSingle = document.getElementById("scope_single");
+  const btnMulti = document.getElementById("scope_multi");
 
-document.getElementById("scope_multi").onclick = () => {
-  createWatch(mode, targetPrice, "multi", true);
-};
-    }
+  btnSingle.addEventListener("click", () => {
+    createWatch(mode, targetPrice, "single", false);
+  });
+
+  btnMulti.addEventListener("click", () => {
+    createWatch(mode, targetPrice, "multi", true);
+  });
+}
 
 function showLoading() {
   modalContainer.innerHTML = `
