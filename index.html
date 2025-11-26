@@ -470,7 +470,6 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
     }
 
     function renderStepScope(mode, targetPrice = null) {
-  DBG("renderStepScope fired. mode=" + mode + " target=" + targetPrice);
 
   modalContainer.innerHTML = `
     <div>
@@ -498,13 +497,11 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
   const m = document.getElementById("scope_multi");
 
   s.addEventListener("click", (e) => {
-    DBG("CLICK single");
     e.stopPropagation();
     createWatch(mode, targetPrice, "single", false);
   });
 
   m.addEventListener("click", (e) => {
-    DBG("CLICK multi");
     e.stopPropagation();
     createWatch(mode, targetPrice, "multi", true);
   });
@@ -556,10 +553,8 @@ function showLoading() {
 }
 
     async function createWatch(mode, price, scope, shouldLoad = false) {
-  DBG("createWatch START: mode=" + mode + " price=" + price + " scope=" + scope);
 
   if (shouldLoad) {
-    DBG("calling showLoading()");
     showLoading();
   }
 
@@ -571,14 +566,11 @@ function showLoading() {
   let token = null;
   try {
     token = await getPushSubscription(CURRENT_PRODUCT.product_id);
-    DBG("got push subscription token");
   } catch (err) {
-    DBG("FAILED to get push subscription: " + err);
     alert("Push permission failed: " + err.message);
     return;
   }
 
-  DBG("sending fetch to backend...");
 
   const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/create-watch", {
     method: "POST",
@@ -595,22 +587,18 @@ function showLoading() {
     })
   });
 
-  DBG("FETCH returned: status=" + res.status);
 
   let out = {};
   try {
     out = await res.json();
   } catch (e) {
-    DBG("JSON parse error");
   }
 
   if (!res.ok) {
-    DBG("BACKEND ERROR: " + JSON.stringify(out));
     alert("Backend error: " + (out.error || "Unknown error"));
     return;
   }
 
-  DBG("SUCCESS – Opening success modal");
   modal.classList.add("hidden");
   successModal.classList.remove("hidden");
 
@@ -625,11 +613,9 @@ window.createWatch = createWatch;
 
 window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
   try {
-    DBG("SAFE CALL → mode=" + mode + " price=" + price + " scope=" + scope);
     await createWatch(mode, price, scope, shouldLoad);
   } catch (err) {
     alert("ERROR: " + err.message);
-    DBG("SAFE CREATE ERROR: " + err);
   }
 };
 
@@ -767,24 +753,6 @@ amazonBtn.onclick = async () => {
   menuBtn.addEventListener("click", () => {
     mobileMenu.classList.toggle("hidden");
   });
-</script>
-
-<pre id="debug_overlay"
-     style="position:fixed; bottom:0; left:0; right:0; max-height:40%; 
-            overflow:auto; background:black; color:#0f0; padding:10px; 
-            font-size:12px; z-index:999999; display:none; white-space:pre-wrap;">
-</pre>
-
-<script>
-  function DBG(msg) {
-    const el = document.getElementById("debug_overlay");
-    el.style.display = "block";
-    el.textContent += msg + "\n";
-  }
-
-  window.onerror = function(msg, url, line, col, err) {
-    DBG("JS ERROR: " + msg + " @ " + line + ":" + col);
-  };
 </script>
 
 </body>
