@@ -470,6 +470,8 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
     }
 
     function renderStepScope(mode, targetPrice = null) {
+  DBG("renderStepScope fired. mode=" + mode + " target=" + targetPrice);
+
   modalContainer.innerHTML = `
     <div>
       <h2 class="text-xl font-semibold text-center text-gray-900 mb-4">
@@ -477,20 +479,33 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
       </h2>
 
       <div class="flex flex-col gap-3">
-        <button
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold"
-            onclick="event.stopPropagation(); createWatch('${mode}', '${targetPrice}', 'single', false)">
+        <button id="scope_single"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
           Just This Store
         </button>
 
-        <button
-            class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold"
-            onclick="event.stopPropagation(); createWatch('${mode}', '${targetPrice}', 'multi', true)">
+        <button id="scope_multi"
+                class="w-full bg-slate-700 hover:bg-slate-800 text-white py-3 rounded-lg font-semibold">
           Everywhere it's available
         </button>
       </div>
     </div>
   `;
+
+  const s = document.getElementById("scope_single");
+  const m = document.getElementById("scope_multi");
+
+  s.addEventListener("click", (e) => {
+    DBG("CLICK single");
+    e.stopPropagation();
+    createWatch(mode, targetPrice, "single", false);
+  });
+
+  m.addEventListener("click", (e) => {
+    DBG("CLICK multi");
+    e.stopPropagation();
+    createWatch(mode, targetPrice, "multi", true);
+  });
 }
 
 modal.onclick = (e) => {
@@ -540,6 +555,52 @@ function showLoading() {
 
     async function createWatch(mode, price, scope, shouldLoad = false) {
   if (shouldLoad) showLoading();
+
+  async function createWatch(mode, price, scope, shouldLoad = false) {
+  DBG("createWatch START: mode=" + mode + " price=" + price + " scope=" + scope);
+
+  if (shouldLoad) {
+    DBG("calling showLoading()");
+    showLoading();
+  }
+
+  let token = null;
+  try {
+    token = await getPushSubscription(CURRENT_PRODUCT.product_id);
+    DBG("got push subscription token");
+  } catch (err) {
+    DBG("FAILED to get push subscription: " + err);
+  }
+
+  DBG("sending fetch to backend...");
+
+  const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/create-watch", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN },
+    body: JSON.stringify({
+      product_id: CURRENT_PRODUCT.product_id,
+      mode,
+      scope,
+      target_price: price,
+      push_token: token
+    })
+  });
+
+  DBG("FETCH returned: status=" + res.status);
+
+  const out = await res.json().catch(() => DBG("JSON parse error"));
+
+  if (!res.ok) {
+    DBG("BACKEND ERROR: " + JSON.stringify(out));
+    return;
+  }
+
+  DBG("SUCCESS – Opening success modal");
+  modal.classList.add("hidden");
+  successModal.classList.remove("hidden");
+
+  confetti({ particleCount: 120, spread: 70, origin: { y: 0.4 } });
+}
 
   const token = await getPushSubscription(CURRENT_PRODUCT.product_id);
 
@@ -711,6 +772,24 @@ amazonBtn.onclick = async () => {
   menuBtn.addEventListener("click", () => {
     mobileMenu.classList.toggle("hidden");
   });
+</script>
+
+<pre id="debug_overlay"
+     style="position:fixed; bottom:0; left:0; right:0; max-height:40%; 
+            overflow:auto; background:black; color:#0f0; padding:10px; 
+            font-size:12px; z-index:999999; display:none; white-space:pre-wrap;">
+</pre>
+
+<script>
+  function DBG(msg) {
+    const el = document.getElementById("debug_overlay");
+    el.style.display = "block";
+    el.textContent += msg + "\n";
+  }
+
+  window.onerror = function(msg, url, line, col, err) {
+    DBG("JS ERROR: " + msg + " @ " + line + ":" + col);
+  };
 </script>
 
 </body>
