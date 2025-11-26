@@ -804,24 +804,71 @@ amazonBtn.onclick = async () => {
 </div>
 
 <script>
-  function isIOS() {
+
+</script>
+
+<div id="nonSafariModal"
+     class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
+
+    <button id="closeNonSafariModal"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
+      ×
+    </button>
+
+    <div class="flex flex-col items-center text-center space-y-4 animate-step">
+
+      <div class="text-5xl">⚠️</div>
+
+      <h2 class="text-2xl font-semibold text-gray-900">
+        Safari Required for Alerts
+      </h2>
+
+      <p class="text-gray-600 text-lg leading-relaxed">
+        On iPhone, only <span class="font-semibold">Safari</span> supports notifications.<br><br>
+        Please open Peelr in Safari to enable price alerts.
+      </p>
+
+      <button id="openInSafariBtn"
+              class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+        Open in Safari
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function isIOS() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
 }
 
-function isInstalled() {
-  return window.navigator.standalone === true;
+function isSafari() {
+  const ua = navigator.userAgent.toLowerCase();
+  return ua.includes("safari") && 
+         !ua.includes("crios") && 
+         !ua.includes("fxios") && 
+         !ua.includes("chrome") &&
+         !ua.includes("firefox") &&
+         !ua.includes("edgios");
 }
 
-function showInstallModal() {
-  document.getElementById("installPWAModal").classList.remove("hidden");
-}
+const nonSafariModal = document.getElementById("nonSafariModal");
+document.getElementById("closeNonSafariModal").onclick =
+  () => nonSafariModal.classList.add("hidden");
 
-document.getElementById("closeInstallPWAModal").onclick =
-  () => document.getElementById("installPWAModal").classList.add("hidden");
+document.getElementById("openInSafariBtn").onclick = () => {
+  window.location.href = "https://usepeelr.com";
+};
 
-document.getElementById("installOkBtn").onclick =
-  () => document.getElementById("installPWAModal").classList.add("hidden");
-
+document.getElementById("track_btn").addEventListener("click", (e) => {
+  if (isIOS() && !isSafari()) {
+    e.preventDefault();
+    nonSafariModal.classList.remove("hidden");
+    return;
+  }
+});
 </script>
 
 </body>
