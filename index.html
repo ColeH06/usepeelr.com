@@ -483,9 +483,10 @@ errorModal.onclick = (e) => { if (e.target === errorModal) errorModal.classList.
   const btnSingle = document.getElementById("scope_single");
   const btnMulti = document.getElementById("scope_multi");
 
-  btnSingle.addEventListener("click", () => {
-    createWatch(mode, targetPrice, "single", false);
-  });
+  btnSingle.addEventListener("click", (e) => {
+  e.stopPropagation();
+  createWatch(mode, targetPrice, "single", false);
+});
 
   btnMulti.addEventListener("click", () => {
     createWatch(mode, targetPrice, "multi", true);
