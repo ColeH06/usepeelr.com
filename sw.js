@@ -1,5 +1,22 @@
 console.log("📡 Service Worker loaded and ready.");
 
+const SW_VERSION = 'v1.0.9';
+
+// 🔥 Force update when version changes
+self.addEventListener("install", (event) => {
+  console.log("⬇️ Installing SW", SW_VERSION);
+  self.skipWaiting();  // forces activation
+});
+
+self.addEventListener("activate", (event) => {
+  console.log("🔄 Activating SW", SW_VERSION);
+  event.waitUntil(self.clients.claim());
+});
+
+// -----------------------------------------------------
+// PUSH HANDLER
+// -----------------------------------------------------
+
 self.addEventListener("push", (event) => {
   console.log("🚨 PUSH EVENT RECEIVED:", event);
 
@@ -26,6 +43,7 @@ self.addEventListener("push", (event) => {
   );
 });
 
+
 self.addEventListener("notificationclick", (event) => {
   console.log("🖱 Notification clicked");
 
@@ -34,15 +52,13 @@ self.addEventListener("notificationclick", (event) => {
   const targetUrl = event.notification.data.url;
 
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
+    clients.matchAll({ type: "window", includeUncontrolled: true }).then(clientList => {
       for (const client of clientList) {
         if (client.url === targetUrl && "focus" in client) {
           return client.focus();
         }
       }
-      if (clients.openWindow) {
-        return clients.openWindow(targetUrl);
-      }
+      if (clients.openWindow) return clients.openWindow(targetUrl);
     })
   );
 });
