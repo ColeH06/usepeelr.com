@@ -494,7 +494,26 @@ html {
   </div>
 </div>
 
-  <!-- AMAZON COMING SOON MODAL -->
+<div id="setupModal"
+     class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in relative text-center">
+
+    <div class="w-full flex justify-center mb-6">
+      <div class="animate-spin h-12 w-12 border-4 border-purple-500 border-t-transparent rounded-full"></div>
+    </div>
+
+    <h2 class="text-lg font-semibold text-gray-900 mb-2">
+      Setting up your alert…
+    </h2>
+
+    <p class="text-gray-500 text-sm">
+      Hold tight — this only takes a moment.
+    </p>
+
+  </div>
+</div>
+
 <div id="amazonSoonModal"
      class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
 
@@ -542,6 +561,16 @@ function showLoadingModal() {
 
 function hideLoadingModal() {
   loadingModal.classList.add("hidden");
+}
+
+const setupModal = document.getElementById("setupModal");
+
+function showSetupModal() {
+  setupModal.classList.remove("hidden");
+}
+
+function hideSetupModal() {
+  setupModal.classList.add("hidden");
 }
 
     modal.style.pointerEvents = "none";
@@ -763,9 +792,7 @@ function showLoading() {
 
     async function createWatch(mode, price, scope, shouldLoad = false) {
 
-  if (shouldLoad) {
-    showLoading();
-  }
+  showSetupModal();
 
   if (!CURRENT_PRODUCT) {
     alert("Missing product data. Refresh the page and try again.");
@@ -808,6 +835,7 @@ function showLoading() {
     return;
   }
 
+  hideSetupModal();
   modal.classList.add("hidden");
   successModal.classList.remove("hidden");
 
