@@ -241,16 +241,11 @@ html {
   opacity: 1;
 }
 
-/* Move exactly one full group width */
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
 </style>
-
-<!-- ========================= -->
-<!--    RETAILER LOGO BELT    -->
-<!-- ========================= -->
 
 <style>
   .logo-marquee {
@@ -284,6 +279,19 @@ html {
 
 .logo-box.walmart img {
     max-width: 90%;
+}
+
+.logo-box.walmart {
+  width: 190px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-box.walmart img {
+  max-height: 58px;
+  max-width: 90%;
+  object-fit: contain;
 }
 
   .logo-box img {
