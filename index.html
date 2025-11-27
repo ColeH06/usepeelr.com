@@ -266,19 +266,25 @@ html {
     animation: marquee 26s linear infinite;
   }
 
-  /* Spread out the two groups */
   .logo-track > div {
     display: flex;
-    gap: 5rem; /* adjust spacing here */
+    gap: 5rem;
   }
 
-  /* Fixed width boxes so logos don't hug each other */
   .logo-box {
-    width: 120px; /* <- consistent width for every logo */
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
+  .logo-box.walmart {
+    width: 170px;
+}
+
+.logo-box.walmart img {
+    max-width: 90%;
+}
 
   .logo-box img {
     max-height: 48px;
@@ -303,7 +309,7 @@ html {
     <div class="logo-track">
 
       <div>
-        <div class="logo-box"><img src="/static/icons/walmart-logo.png"></div>
+        <div class="logo-box walmart"><img src="/static/icons/walmart-logo.png"></div>
         <div class="logo-box"><img src="/static/icons/target-logo.png"></div>
         <div class="logo-box"><img src="/static/icons/bestbuy-logo.png"></div>
         <div class="logo-box"><img src="/static/icons/macys-logo.png"></div>
@@ -316,7 +322,7 @@ html {
       </div>
 
       <div>
-        <div class="logo-box"><img src="/static/icons/walmart-logo.png"></div>
+        <div class="logo-box walmart"><img src="/static/icons/walmart-logo.png"></div>
         <div class="logo-box"><img src="/static/icons/target-logo.png"></div>
         <div class="logo-box"><img src="/static/icons/bestbuy-logo.png"></div>
         <div class="logo-box"><img src="/static/icons/macys-logo.png"></div>
