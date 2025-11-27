@@ -141,7 +141,6 @@ html {
      class="h-[80px] md:h-[80px] sm:h-[64px] h-[56px] w-auto object-contain flex-shrink-0" />
     </div>
 
-    <!-- NAV LINKS RIGHT -->
     <div class="hidden md:flex gap-8 text-slate-700 font-medium items-center ml-auto">
       <a href="#hero" class="nav-link hover:text-blue-600 transition">Home</a>
       <a href="#how" class="nav-link hover:text-blue-600 transition">How It Works</a>
@@ -474,6 +473,27 @@ html {
     </div>
   </div>
 
+  <!-- INSTANT LOADING MODAL -->
+<div id="loadingModal"
+     class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+
+  <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6 animate-fade-in relative text-center">
+
+    <div class="w-full flex justify-center mb-6">
+      <div class="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+    </div>
+
+    <h2 class="text-lg font-semibold text-gray-900 mb-2">
+      Loading product…
+    </h2>
+
+    <p class="text-gray-500 text-sm">
+      One moment while we fetch the details.
+    </p>
+
+  </div>
+</div>
+
   <!-- AMAZON COMING SOON MODAL -->
 <div id="amazonSoonModal"
      class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
@@ -513,6 +533,16 @@ html {
     const trackBtn = document.getElementById("track_btn");
 
     const modalCard = document.getElementById("modalCard");
+
+    const loadingModal = document.getElementById("loadingModal");
+
+function showLoadingModal() {
+  loadingModal.classList.remove("hidden");
+}
+
+function hideLoadingModal() {
+  loadingModal.classList.add("hidden");
+}
 
     modal.style.pointerEvents = "none";
     modalCard.style.pointerEvents = "auto";
@@ -802,7 +832,6 @@ window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
   const url = document.getElementById("product_url").value.trim();
   if (!url) return showError("Please enter a product link.");
 
-  // If on iOS AND not installed → stop flow + show modal
   if (isIOS() && !isInstalled()) {
     showInstallModal();
     return;
@@ -812,17 +841,30 @@ window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
     return showError("Please enter a valid URL starting with http:// or https://");
   }
 
-  const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/preview-product", {
-    method: "POST",
-    headers: { 
-      "Content-Type": "application/json",
-      "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
-    },
-    body: JSON.stringify({ url })
-  });
+  showLoadingModal();
 
-  const data = await res.json();
-  if (!res.ok) return showError(data.error || "We couldn't find this product. Try a different one.");
+  let res, data;
+  try {
+    res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/preview-product", {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json",
+        "X-PEELR-CLIENT": PEELR_CLIENT_TOKEN
+      },
+      body: JSON.stringify({ url })
+    });
+
+    data = await res.json();
+  } catch (err) {
+    hideLoadingModal();
+    return showError("Connection error. Try again.");
+  }
+
+  hideLoadingModal();
+
+  if (!res.ok) {
+    return showError(data.error || "We couldn't find this product. Try a different one.");
+  }
 
   CURRENT_PRODUCT = data;
   renderStep1();
@@ -883,7 +925,6 @@ amazonLearnMore.onclick = () => {
       behavior: "smooth"
     });
 
-    // Auto-close mobile menu if open
     const mobileMenu = document.getElementById("mobileMenu");
     if (!mobileMenu.classList.contains("hidden")) {
       mobileMenu.classList.add("hidden");
@@ -908,7 +949,6 @@ amazonBtn.onclick = async () => {
     return;
   }
 
-  // Send to backend
   const formData = new FormData();
   formData.append("amazon_url", url);
 
@@ -920,7 +960,6 @@ amazonBtn.onclick = async () => {
   const data = await res.json();
 
   if (!res.ok) {
-    // Show backend error message
     amazonError.textContent = data.error || "Invalid Amazon link.";
     amazonError.classList.remove("hidden");
     return;
@@ -940,7 +979,6 @@ amazonBtn.onclick = async () => {
   });
 </script>
 
-<!-- INSTALL PWA MODAL -->
 <div id="installPWAModal"
      class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
 
@@ -1003,7 +1041,6 @@ document.getElementById("installOkBtn").onclick =
 
 </script>
 
-<!-- NON-SAFARI iOS WARNING MODAL -->
 <div id="nonSafariModal"
      class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
 
