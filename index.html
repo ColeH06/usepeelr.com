@@ -179,7 +179,7 @@ html {
 
   <div id="hero" class="pt-36 md:pt-44 pb-28 text-center px-6 max-w-3xl mx-auto animate-fade-in">
 
-<div class="md:hidden mt-4 mb-6 text-center px-4">
+<div id="installCTA" class="md:hidden mt-4 mb-6 text-center px-4">
 
   <button onclick="showInstallModal()"
   class="w-full py-2.5 rounded-lg bg-white border border-blue-200 text-blue-700 
@@ -967,6 +967,16 @@ amazonLearnMore.onclick = () => {
 };
 
   </script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const cta = document.getElementById("installCTA");
+
+  if (isIOS() && isInstalled()) {
+    cta.style.display = "none";
+  }
+});
+</script>
 
   <script>
   document.querySelectorAll(".nav-link").forEach(link => {
