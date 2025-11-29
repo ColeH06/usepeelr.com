@@ -496,27 +496,42 @@ html {
   <script src="/push.js"></script>
 
   <div id="successModal"
-       class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+     class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
 
-    <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
+  <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
 
-      <button id="closeSuccessModal"
-              class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
-        ×
+    <button id="closeSuccessModal"
+            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">×</button>
+
+    <div class="flex flex-col items-center text-center space-y-4 animate-step">
+
+      <div class="text-5xl">🎉</div>
+
+      <h2 class="text-2xl font-semibold text-gray-900">
+        Success — Price Alert Set!
+      </h2>
+
+      <p class="text-gray-600 text-lg leading-relaxed">
+        Add Peelr to your Home Screen to receive <strong>instant price-drop alerts</strong>.
+      </p>
+
+      <div class="w-full bg-gray-50 border rounded-lg p-4 text-left">
+        <p class="font-medium text-gray-800 mb-2">How to install:</p>
+        <ol class="list-decimal list-inside text-gray-600 space-y-1 text-left">
+          <li>Tap the <strong>Share</strong> icon at the bottom.</li>
+          <li>Scroll and select <strong>Add to Home Screen</strong>.</li>
+          <li>Open Peelr from your Home Screen to get alerts.</li>
+        </ol>
+      </div>
+
+      <button id="successOkBtn"
+              class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+        Got It
       </button>
 
-      <div class="flex flex-col items-center text-center space-y-4 animate-step">
-        <div class="text-5xl">🎉</div>
-
-        <h2 class="text-2xl font-semibold text-gray-900">
-          Success!
-        </h2>
-
-        <p class="text-gray-600 text-lg">
-          We are now tracking this item.<br>
-          Keep an eye out for a notification!
-        </p>
-      </div>
+    </div>
+  </div>
+</div>
     </div>
   </div>
 
@@ -949,11 +964,6 @@ window.safeCreateWatch = async function(mode, price, scope, shouldLoad) {
   const url = document.getElementById("product_url").value.trim();
   if (!url) return showError("Please enter a product link.");
 
-  if (isIOS() && !isInstalled()) {
-    showInstallModal();
-    return;
-  }
-
   if (!/^https?:\/\//i.test(url)) {
     return showError("Please enter a valid URL starting with http:// or https://");
   }
@@ -1172,34 +1182,6 @@ document.getElementById("installOkBtn").onclick =
   () => document.getElementById("installPWAModal").classList.add("hidden");
 
 </script>
-
-<div id="nonSafariModal"
-     class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
-
-  <div class="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6 animate-fade-in relative">
-
-    <button id="closeNonSafariModal"
-            class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl">
-      ×
-    </button>
-
-    <div class="flex flex-col items-center text-center space-y-4 animate-step">
-
-      <div class="text-5xl">⚠️</div>
-
-      <h2 class="text-2xl font-semibold text-gray-900">
-        Safari Required for Alerts
-      </h2>
-
-      <p class="text-gray-600 text-lg leading-relaxed">
-        On iPhone, only <span class="font-semibold">Safari</span> supports notifications.<br><br>
-        Please open Peelr in Safari to enable price alerts.
-      </p>
-
-      <button id="openInSafariBtn"
-              class="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold">
-        Open in Safari
-      </button>
 
     </div>
   </div>
