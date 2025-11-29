@@ -177,7 +177,7 @@ html {
   </div>
 </nav>
 
-  <div id="hero" class="pt-36 md:pt-44 pb-28 text-center px-6 max-w-3xl mx-auto animate-fade-in">
+  <div id="hero" class="pt-36 md:pt-44 pb-20 text-center px-6 max-w-3xl mx-auto animate-fade-in">
 
   <!-- BLACK FRIDAY BANNER -->
   <div class="inline-block px-4 py-2 mb-6 rounded-full bg-red-500/10 text-red-700 font-medium text-sm border border-red-200 shadow-sm">
@@ -185,7 +185,7 @@ html {
   </div>
 
   <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800 leading-snug">
-    <span class="whitespace-nowrap md:whitespace-normal">Stop Checking Prices.</span><br />
+    Stop Checking Prices.<br />
     Start Getting Alerts.
   </h1>
 
@@ -194,20 +194,20 @@ html {
     Get instant alerts the moment a price drops.
   </p>
 
-<div class="mt-8 text-center md:hidden px-4">
-  <button onclick="showInstallModal()"
-    class="w-full py-4 rounded-2xl bg-blue-600 text-white text-lg font-semibold shadow active:scale-[.98]">
-    📲 Add to Home Screen for Instant Alerts
-  </button>
+  <!-- PRIMARY CTA: Add to Home Screen -->
+  <div class="mt-8 text-center md:hidden px-4">
+    <button onclick="showInstallModal()"
+      class="w-full py-4 rounded-2xl bg-blue-600 text-white text-lg font-semibold shadow active:scale-[.98]">
+      📲 Add to Home Screen for Instant Alerts
+    </button>
 
-  <p class="text-xs text-slate-500 mt-2 leading-relaxed">
-    You’ll use Peelr later while shopping. Add it now so it’s ready!
-  </p>
-</div>
+    <p class="text-xs text-slate-500 mt-2 leading-relaxed">
+      You’ll use Peelr later while shopping. Add it now so it’s ready.
+    </p>
+  </div>
 
-<div class="h-6"></div>
-
-  <div class="mt-2 w-full max-w-2xl mx-auto bg-white shadow-xl border border-white/40 rounded-2xl overflow-hidden flex flex-col sm:flex-row">
+  <!-- Track Price Box -->
+  <div class="mt-4 w-full max-w-2xl mx-auto bg-white shadow-lg border border-white/40 rounded-2xl overflow-hidden flex flex-col sm:flex-row">
     <input id="product_url"
       type="text"
       placeholder="Paste a product link..."
@@ -219,15 +219,16 @@ html {
     </button>
   </div>
 
+  <!-- Try an Example -->
   <div class="mt-3 text-center">
-  <button
-    onclick="document.getElementById('product_url').value='https://www.target.com/p/apple-airpods-pro-2nd-generation/-/A-87501398';"
-    class="text-blue-600 text-sm font-medium underline underline-offset-2 hover:text-blue-800">
-    No product link? Try an example →
-  </button>
-</div>
+    <button
+      onclick="document.getElementById('product_url').value='https://www.target.com/p/apple-airpods-pro-2nd-generation/-/A-87501398';"
+      class="text-blue-600 text-sm font-medium underline underline-offset-2 hover:text-blue-800">
+      No product link? Try an example →
+    </button>
+  </div>
 
-  <p class="mt-3 text-slate-600 text-sm">
+  <p class="mt-4 text-slate-600 text-sm">
     100% free · No account required · Instant alerts
   </p>
 
