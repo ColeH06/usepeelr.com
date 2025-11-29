@@ -228,6 +228,48 @@ html {
     </button>
   </div>
 
+ <!-- QUICK START RECOMMENDATIONS -->
+<div class="mt-10 text-center max-w-md mx-auto animate-fade-in">
+  <h3 class="text-xl font-bold text-slate-800 mb-4">
+    Quick Start: Try Tracking These Top Black Friday Deals
+  </h3>
+
+  <div class="flex flex-col gap-3">
+
+    <button onclick="autoTrack('https://www.target.com/p/ap2022-true-wireless-bluetooth-headphones/-/A-85978609')"
+      class="bg-white border-2 border-green-500 text-slate-800 py-3 rounded-xl font-semibold shadow-sm active:scale-[.98] transition">
+      🎧 Apple AirPods Pro 3 Wireless Headphones (Target)
+    </button>
+
+    <button onclick="autoTrack('https://bananarepublic.gap.com/browse/product.do?pid=796005022&vid=1&searchText=luxe%20Merino%20Wool%20Sweater#pdp-page-content')"
+      class="bg-white border-2 border-blue-500 text-slate-800 py-3 rounded-xl font-semibold shadow-sm active:scale-[.98] transition">
+      🧵 Luxe Merino Wool Sweater (Banana Republic)
+    </button>
+
+    <button onclick="autoTrack('https://oldnavy.gap.com/browse/product.do?pid=770697002&vid=1&searchText=mens%20jeans#pdp-page-content')"
+      class="bg-white border-2 border-blue-500 text-slate-800 py-3 rounded-xl font-semibold shadow-sm active:scale-[.98] transition">
+      👖 Loose Built-In Flex Jeans (Old Navy)
+    </button>
+
+    <button onclick="autoTrack('https://www.walmart.com/ip/Ninja-Air-Fryer-Navy/14323955177?classType=VARIANT&from=/search')"
+      class="bg-white border-2 border-red-500 text-slate-800 py-3 rounded-xl font-semibold shadow-sm active:scale-[.98] transition">
+      🍗 Ninja Air Fryer (Walmart)
+    </button>
+
+  </div>
+
+  <p class="mt-3 text-xs text-slate-500">
+    Tap any item to see Peelr in action — no link needed.
+  </p>
+</div>
+
+  </div>
+
+  <p class="mt-3 text-xs text-slate-500">
+    Tap any item to see Peelr in action — no link needed.
+  </p>
+</div>
+
   <p class="mt-4 text-slate-600 text-sm">
     100% free · No account required · Instant alerts
   </p>
@@ -979,6 +1021,21 @@ amazonLearnMore.onclick = () => {
 };
 
   </script>
+
+  <script>
+  function autoTrack(url) {
+    const input = document.getElementById("product_url");
+    const trackBtn = document.getElementById("track_btn");
+
+    if (!input || !trackBtn) return;
+
+    input.value = url;
+
+    setTimeout(() => {
+      trackBtn.click();
+    }, 150);
+  }
+</script>
 
   <script>
   document.querySelectorAll(".nav-link").forEach(link => {
