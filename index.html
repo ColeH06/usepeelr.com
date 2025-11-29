@@ -930,7 +930,7 @@ function showLoading() {
 
   let token = null;
   try {
-if (isIOS() && !isInstalled()) {
+if (isSafariOnIOS() && !isInstalled()) {
   hideSetupModal();
   modal.classList.add("hidden");
   document.getElementById("fakeSuccessModal").classList.remove("hidden");
@@ -948,6 +948,15 @@ if (isIOS() && !isInstalled()) {
     return;
   }
 
+  function isSafariOnIOS() {
+  const ua = navigator.userAgent.toLowerCase();
+  const isIOS = /iphone|ipad|ipod/.test(ua);
+  
+  const isRealSafari = isIOS && 
+    !/crios|fxios|chromium|chrome/.test(ua);
+
+  return isRealSafari;
+}
 
   const res = await fetch("https://peelr-backend-29561842452.us-central1.run.app/api/create-watch", {
     method: "POST",
