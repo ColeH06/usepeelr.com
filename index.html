@@ -37,15 +37,23 @@
     /* Top-left logo */
     .logo {
       position: absolute;
-      top: 32px;     /* more breathing room */
-      left: 32px;
+      top: 40px;
+      left: 40px;
       display: flex;
       align-items: center;
+      gap: 18px;
     }
 
     .logo img {
-      height: 60px;  /* bigger, more visible */
-      filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
+      height: 105px; /* MUCH bigger */
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.45));
+    }
+
+    .logo-text {
+      font-size: 50px;        /* large, clean */
+      font-weight: 700;
+      color: #ffffff;         /* white text */
+      letter-spacing: -0.5px;
     }
 
     h1 {
