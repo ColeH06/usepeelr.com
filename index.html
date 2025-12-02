@@ -37,21 +37,15 @@
     /* Top-left logo */
     .logo {
       position: absolute;
-      top: 24px;
-      left: 24px;
+      top: 32px;     /* more breathing room */
+      left: 32px;
       display: flex;
       align-items: center;
-      gap: 10px;
     }
 
     .logo img {
-      height: 38px;
-    }
-
-    .logo-text {
-      font-size: 22px;
-      font-weight: 600;
-      color: #ffe985; /* Peelr yellow */
+      height: 60px;  /* bigger, more visible */
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
     }
 
     h1 {
@@ -78,18 +72,11 @@
 
   <div class="logo">
     <img src="/static/peelr-logo.png" alt="Peelr Logo">
-    <span class="logo-text">peelr</span>
   </div>
 
   <div class="container">
     <h1>We're Upgrading Peelr</h1>
-    <p>
-      A major update is underway.<br>
-      Peelr is transforming into a faster, smarter, AI-powered shopping experience.
-    </p>
-    <p class="subtext">
-      This won’t take long. Check back soon 💛
-    </p>
+    <p>Something new is coming.<br>We’ll be back soon.</p>
   </div>
 
 </body>
